@@ -14,16 +14,20 @@ const fetchPokemon = () => {
     Cada resultado é um objeto do pokemon em questão.*/
     Promise.all(pokemonsPromises)
         .then(pokemons => {
-
             const pokemonsHtmlLis = pokemons.reduce((accumulator, pokemon) => {
+                const pokemonTypes = pokemon.types.map(typeInfo => typeInfo.type.name)
                 accumulator += `
-                    <li>
-                        <h2>${pokemon.id}: ${pokemon.name}</h2>
+                    <li class="pokemon">
+                        <img src="${pokemon.sprites.front_default}">
+                        <h2>${pokemon.name}</h2>
+                        <p>id: ${pokemon.id} </p>
+                        <p>tipo(s): ${pokemonTypes.join(" | ")}</p>
                     </li>`
                 return accumulator
             },'')
 
-            console.log(pokemonsHtmlLis)
+            const ul = document.querySelector('[data-js="pokedex"]')
+            ul.innerHTML = pokemonsHtmlLis
         })
 }
 
